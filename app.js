@@ -13,109 +13,214 @@ function DoorApp() {
     hinge1: '', hinge2: '', hinge3: '',
     peepHole: '', deadbolt: '', entryKnob: '',
     backset: '2-3/8-in',
-    productNum: '', quantity: '', notes: ''
+    productNum: '', quantity: '', notes: '', customerSignature: '', signatureDate: ''
   });
 
   const update = (field, val) => setFormData(prev => ({ ...prev, [field]: val }));
 
   return (
-    <div className="p-4 max-w-2xl mx-auto bg-white min-h-screen shadow-xl border-t-8 border-blue-900 font-sans">
-      <header className="mb-6 border-b pb-4">
-        <h1 className="text-2xl font-bold text-blue-900">Lockset and Hinge Boring Order</h1>
-        <p className="text-sm text-gray-600">Status: <span className="font-bold text-orange-600 uppercase">{status}</span></p>
-      </header>
+    <div className="bg-gray-100 min-h-screen font-sans">
+      {/* Banner with Image */}
+      <div className="w-full h-48 bg-cover bg-center" style={{
+        backgroundImage: 'url(https://github.com/miklamx/door-fab-app/raw/main/images/Gemini_Generated_Image_ww7kefww7kefww7k.png)',
+        backgroundPosition: 'center',
+        backgroundSize: 'cover'
+      }}>
+        <div className="bg-black bg-opacity-40 h-full flex items-center justify-center">
+          <div className="text-center text-white">
+            <h1 className="text-4xl font-bold mb-2">Lockset & Hinge Boring</h1>
+            <p className="text-lg opacity-90">Professional Door Fabrication Order Form</p>
+          </div>
+        </div>
+      </div>
 
-      <section className="mb-8 bg-gray-50 p-4 rounded">
-        <h2 className="font-bold border-b text-gray-700 mb-4">CUSTOMER INFORMATION</h2>
+      {/* Main Form Container */}
+      <div className="p-6 max-w-4xl mx-auto">
         
-        <div className="flex gap-2 mb-4">
-          <button 
-            onClick={() => update('docType', 'Quote')} 
-            className={`flex-1 p-2 rounded font-bold ${formData.docType === 'Quote' ? 'bg-blue-800 text-white' : 'bg-white border'}`}
-          >
-            Quote
-          </button>
-          <button 
-            onClick={() => update('docType', 'Order')} 
-            className={`flex-1 p-2 rounded font-bold ${formData.docType === 'Order' ? 'bg-blue-800 text-white' : 'bg-white border'}`}
-          >
-            Order
-          </button>
+        {/* Status Bar */}
+        <div className="mb-6 bg-white p-4 rounded-lg shadow-md border-l-4 border-blue-600">
+          <p className="text-sm text-gray-600">Current Status: <span className="font-bold text-lg text-blue-600 uppercase">{status}</span></p>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
-          <input placeholder="Customer Name" className="border p-2 rounded" value={formData.customerName} onChange={e => update('customerName', e.target.value)} />
-          <input placeholder="Account #" className="border p-2 rounded" value={formData.accountNum} onChange={e => update('accountNum', e.target.value)} />
-          <input placeholder="Phone" className="border p-2 rounded col-span-2" value={formData.phone} onChange={e => update('phone', e.target.value)} />
+        <form className="space-y-6">
           
-          {formData.docType === 'Order' && (
-            <input placeholder="PO #" className="border p-2 rounded col-span-2" value={formData.poNum} onChange={e => update('poNum', e.target.value)} />
-          )}
-        </div>
-      </section>
+          {/* 1. Customer Information */}
+          <section className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-bold mb-4 text-blue-900 border-b-2 border-blue-600 pb-2">CUSTOMER INFORMATION</h2>
+            
+            {/* Quote/Order Toggle */}
+            <div className="grid grid-cols-2 gap-3 mb-4">
+              <button 
+                type="button"
+                onClick={() => update('docType', 'Quote')} 
+                className={`p-3 rounded-lg font-bold transition-all ${formData.docType === 'Quote' ? 'bg-blue-600 text-white shadow-lg' : 'bg-gray-100 text-gray-700 border border-gray-300 hover:bg-gray-200'}`}
+              >
+                Quote
+              </button>
+              <button 
+                type="button"
+                onClick={() => update('docType', 'Order')} 
+                className={`p-3 rounded-lg font-bold transition-all ${formData.docType === 'Order' ? 'bg-blue-600 text-white shadow-lg' : 'bg-gray-100 text-gray-700 border border-gray-300 hover:bg-gray-200'}`}
+              >
+                Order
+              </button>
+            </div>
 
-      <section className="mb-8 space-y-4">
-        <h2 className="font-bold border-b text-gray-700">DOOR SPECIFICATIONS</h2>
-        <div className="grid grid-cols-2 gap-4">
-            <label className="block text-sm font-medium">Finished Height
-                <input type="text" className="w-full border p-2 mt-1" value={formData.finishedHeight} onChange={e => update('finishedHeight', e.target.value)} />
-            </label>
-            <label className="block text-sm font-medium">Finished Width
-                <input type="text" className="w-full border p-2 mt-1" value={formData.finishedWidth} onChange={e => update('finishedWidth', e.target.value)} />
-            </label>
-        </div>
+            <div className="grid grid-cols-2 gap-4">
+              <input placeholder="Customer Name" className="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" value={formData.customerName} onChange={e => update('customerName', e.target.value)} />
+              <input placeholder="Account #" className="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" value={formData.accountNum} onChange={e => update('accountNum', e.target.value)} />
+              <input placeholder="Phone" className="border border-gray-300 p-3 rounded-lg col-span-2 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" value={formData.phone} onChange={e => update('phone', e.target.value)} />
+              
+              {formData.docType === 'Order' && (
+                <input placeholder="PO #" className="border border-gray-300 p-3 rounded-lg col-span-2 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" value={formData.poNum} onChange={e => update('poNum', e.target.value)} />
+              )}
+            </div>
+          </section>
 
-        <div className="grid grid-cols-3 gap-2 text-xs">
-            <div className="p-2 border rounded">
-                <p className="font-bold mb-1">Thickness</p>
-                <label className="block"><input type="radio" name="thick" onClick={() => update('thickness', '1-3/8-in')} checked={formData.thickness==='1-3/8-in'}/> 1-3/8"</label>
-                <label className="block"><input type="radio" name="thick" onClick={() => update('thickness', '1-3/4-in')} /> 1-3/4"</label>
+          {/* 2. Door Specifications */}
+          <section className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-bold mb-4 text-blue-900 border-b-2 border-blue-600 pb-2">DOOR SPECIFICATIONS</h2>
+            
+            <div className="grid grid-cols-2 gap-4 mb-4">
+              <label className="block">
+                <span className="text-sm font-semibold text-gray-700 mb-1 block">Finished Height</span>
+                <input type="text" className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" value={formData.finishedHeight} onChange={e => update('finishedHeight', e.target.value)} />
+              </label>
+              <label className="block">
+                <span className="text-sm font-semibold text-gray-700 mb-1 block">Finished Width</span>
+                <input type="text" className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" value={formData.finishedWidth} onChange={e => update('finishedWidth', e.target.value)} />
+              </label>
             </div>
-            <div className="p-2 border rounded">
-                <p className="font-bold mb-1">Core</p>
-                <label className="block"><input type="radio" name="core" onClick={() => update('core', 'Solid')} checked={formData.core==='Solid'} /> Solid</label>
-                <label className="block"><input type="radio" name="core" onClick={() => update('core', 'Hollow')} /> Hollow</label>
-            </div>
-            <div className="p-2 border rounded">
-                <p className="font-bold mb-1">Hinge Radius</p>
-                <label className="block"><input type="radio" name="rad" onClick={() => update('hingeRadius', '1/4-in')} checked={formData.hingeRadius==='1/4-in'} /> 1/4"</label>
-                <label className="block"><input type="radio" name="rad" onClick={() => update('hingeRadius', '5/8-in')} /> 5/8"</label>
-            </div>
-        </div>
-      </section>
 
-      <section className="mb-8 bg-blue-50 p-4 rounded border border-blue-200">
-        <h2 className="font-bold text-blue-900 mb-2">MEASUREMENT PLOTS (FROM TOP)</h2>
-        <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-                <input placeholder="Top of 1st Hinge" className="w-full border p-2" value={formData.hinge1} onChange={e => update('hinge1', e.target.value)} />
-                <input placeholder="Top of 2nd Hinge" className="w-full border p-2" value={formData.hinge2} onChange={e => update('hinge2', e.target.value)} />
-                <input placeholder="Top of 3rd Hinge" className="w-full border p-2" value={formData.hinge3} onChange={e => update('hinge3', e.target.value)} />
+            {/* Radio Buttons in Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+              <div className="p-4 border border-gray-300 rounded-lg bg-gray-50 hover:bg-blue-50 transition">
+                <p className="font-bold text-sm mb-2 text-gray-700">Thickness</p>
+                <label className="block text-sm mb-2"><input type="radio" name="thick" onChange={() => update('thickness', '1-3/8-in')} checked={formData.thickness==='1-3/8-in'} className="mr-2"/> 1-3/8"</label>
+                <label className="block text-sm"><input type="radio" name="thick" onChange={() => update('thickness', '1-3/4-in')} className="mr-2"/> 1-3/4"</label>
+              </div>
+              <div className="p-4 border border-gray-300 rounded-lg bg-gray-50 hover:bg-blue-50 transition">
+                <p className="font-bold text-sm mb-2 text-gray-700">Core</p>
+                <label className="block text-sm mb-2"><input type="radio" name="core" onChange={() => update('core', 'Solid')} checked={formData.core==='Solid'} className="mr-2"/> Solid</label>
+                <label className="block text-sm"><input type="radio" name="core" onChange={() => update('core', 'Hollow')} className="mr-2"/> Hollow</label>
+              </div>
+              <div className="p-4 border border-gray-300 rounded-lg bg-gray-50 hover:bg-blue-50 transition">
+                <p className="font-bold text-sm mb-2 text-gray-700">Hinge Radius</p>
+                <label className="block text-sm mb-2"><input type="radio" name="rad" onChange={() => update('hingeRadius', '1/4-in')} checked={formData.hingeRadius==='1/4-in'} className="mr-2"/> 1/4"</label>
+                <label className="block text-sm"><input type="radio" name="rad" onChange={() => update('hingeRadius', '5/8-in')} className="mr-2"/> 5/8"</label>
+              </div>
+              <div className="p-4 border border-gray-300 rounded-lg bg-gray-50 hover:bg-blue-50 transition">
+                <p className="font-bold text-sm mb-2 text-gray-700">Hinge Dimensions</p>
+                <label className="block text-sm mb-2"><input type="radio" name="hingeDim" onChange={() => update('hingeDim', '3-1/2-in')} checked={formData.hingeDim==='3-1/2-in'} className="mr-2"/> 3-1/2"</label>
+                <label className="block text-sm"><input type="radio" name="hingeDim" onChange={() => update('hingeDim', '4-in')} className="mr-2"/> 4"</label>
+              </div>
             </div>
-            <div className="space-y-2">
-                <input placeholder="Deadbolt Centerline" className="w-full border p-2" value={formData.deadbolt} onChange={e => update('deadbolt', e.target.value)} />
-                <input placeholder="Entry Knob Centerline" className="w-full border p-2" value={formData.entryKnob} onChange={e => update('entryKnob', e.target.value)} />
-                <select className="w-full border p-2 bg-white" value={formData.backset} onChange={e => update('backset', e.target.value)}>
-                    <option value="2-3/8-in">Backset: 2-3/8"</option>
-                    <option value="2-3/4-in">Backset: 2-3/4"</option>
+
+            {/* Door Type */}
+            <div className="mb-4">
+              <p className="font-bold text-sm mb-2 text-gray-700">Door Type</p>
+              <div className="grid grid-cols-2 gap-3">
+                <button 
+                  type="button"
+                  onClick={() => update('doorType', 'Interior')} 
+                  className={`p-3 rounded-lg font-semibold transition-all ${formData.doorType === 'Interior' ? 'bg-blue-600 text-white shadow-lg' : 'bg-gray-100 text-gray-700 border border-gray-300 hover:bg-gray-200'}`}
+                >
+                  Interior
+                </button>
+                <button 
+                  type="button"
+                  onClick={() => update('doorType', 'Exterior')} 
+                  className={`p-3 rounded-lg font-semibold transition-all ${formData.doorType === 'Exterior' ? 'bg-blue-600 text-white shadow-lg' : 'bg-gray-100 text-gray-700 border border-gray-300 hover:bg-gray-200'}`}
+                >
+                  Exterior
+                </button>
+              </div>
+            </div>
+          </section>
+
+          {/* 3. Measurement Plots */}
+          <section className="bg-blue-50 p-6 rounded-lg shadow-md border-l-4 border-blue-600">
+            <h2 className="text-xl font-bold mb-4 text-blue-900 border-b-2 border-blue-600 pb-2">MEASUREMENT PLOTS (FROM TOP)</h2>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-3">
+                <input placeholder="Top of 1st Hinge" className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" value={formData.hinge1} onChange={e => update('hinge1', e.target.value)} />
+                <input placeholder="Top of 2nd Hinge" className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" value={formData.hinge2} onChange={e => update('hinge2', e.target.value)} />
+                <input placeholder="Top of 3rd Hinge" className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" value={formData.hinge3} onChange={e => update('hinge3', e.target.value)} />
+                <input placeholder="Peep Hole" className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" value={formData.peepHole} onChange={e => update('peepHole', e.target.value)} />
+              </div>
+              <div className="space-y-3">
+                <input placeholder="Deadbolt Centerline" className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" value={formData.deadbolt} onChange={e => update('deadbolt', e.target.value)} />
+                <input placeholder="Entry Knob Centerline" className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" value={formData.entryKnob} onChange={e => update('entryKnob', e.target.value)} />
+                <select className="w-full border border-gray-300 p-3 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-600" value={formData.backset} onChange={e => update('backset', e.target.value)}>
+                  <option value="2-3/8-in">Backset: 2-3/8"</option>
+                  <option value="2-3/4-in">Backset: 2-3/4"</option>
                 </select>
+              </div>
             </div>
-        </div>
-      </section>
+          </section>
 
-      <section className="mb-8">
-        <h2 className="font-bold mb-2">DOOR SWING (Back to Hinges)</h2>
-        <div className="flex gap-2">
-            <button onClick={() => update('swing', 'Left')} className={`flex-1 p-3 border rounded ${formData.swing==='Left' ? 'bg-blue-800 text-white' : 'bg-white'}`}>Left Hand</button>
-            <button onClick={() => update('swing', 'Right')} className={`flex-1 p-3 border rounded ${formData.swing==='Right' ? 'bg-blue-800 text-white' : 'bg-white'}`}>Right Hand</button>
-        </div>
-      </section>
+          {/* 4. Door Swing */}
+          <section className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-bold mb-4 text-blue-900 border-b-2 border-blue-600 pb-2">DOOR SWING (Back to Hinges)</h2>
+            <div className="grid grid-cols-2 gap-3">
+              <button 
+                type="button"
+                onClick={() => update('swing', 'Left')} 
+                className={`p-4 rounded-lg font-bold transition-all ${formData.swing==='Left' ? 'bg-blue-600 text-white shadow-lg' : 'bg-gray-100 text-gray-700 border border-gray-300 hover:bg-gray-200'}`}
+              >
+                Left Hand
+              </button>
+              <button 
+                type="button"
+                onClick={() => update('swing', 'Right')} 
+                className={`p-4 rounded-lg font-bold transition-all ${formData.swing==='Right' ? 'bg-blue-600 text-white shadow-lg' : 'bg-gray-100 text-gray-700 border border-gray-300 hover:bg-gray-200'}`}
+              >
+                Right Hand
+              </button>
+            </div>
+          </section>
 
-      <textarea placeholder="Notes / Fabrication Details" className="w-full border p-2 rounded h-20 mb-4" value={formData.notes} onChange={e => update('notes', e.target.value)}></textarea>
+          {/* 5. Product/Inventory */}
+          <section className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-bold mb-4 text-blue-900 border-b-2 border-blue-600 pb-2">PRODUCT / INVENTORY</h2>
+            <div className="grid grid-cols-2 gap-4">
+              <input placeholder="Product #" className="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" value={formData.productNum} onChange={e => update('productNum', e.target.value)} />
+              <input placeholder="Quantity" type="number" min="1" className="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" value={formData.quantity} onChange={e => update('quantity', e.target.value)} />
+            </div>
+          </section>
 
-      <button className="w-full bg-green-700 text-white p-4 rounded-lg font-bold text-lg shadow-lg" onClick={() => setStatus('Production')}>
-        SUBMIT TO PRODUCTION
-      </button>
+          {/* 6. Notes */}
+          <section className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-bold mb-4 text-blue-900 border-b-2 border-blue-600 pb-2">NOTES / FABRICATION DETAILS</h2>
+            <textarea placeholder="Add any special instructions or notes here..." className="w-full border border-gray-300 p-3 rounded-lg h-24 focus:outline-none focus:ring-2 focus:ring-blue-600" value={formData.notes} onChange={e => update('notes', e.target.value)}></textarea>
+          </section>
+
+          {/* 7. Signature & Date */}
+          <section className="bg-white p-6 rounded-lg shadow-md border-l-4 border-green-600">
+            <h2 className="text-xl font-bold mb-4 text-gray-900 border-b-2 border-green-600 pb-2">SIGNATURE & DATE</h2>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Customer Signature</label>
+                <input type="text" placeholder="Sign here or type name" className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600" value={formData.customerSignature} onChange={e => update('customerSignature', e.target.value)} />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Date</label>
+                <input type="date" className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600" value={formData.signatureDate} onChange={e => update('signatureDate', e.target.value)} />
+              </div>
+            </div>
+          </section>
+
+          {/* Submit Button */}
+          <button 
+            type="button"
+            onClick={() => setStatus('Production')} 
+            className="w-full bg-gradient-to-r from-green-600 to-green-700 text-white p-4 rounded-lg font-bold text-lg shadow-lg hover:shadow-xl hover:from-green-700 hover:to-green-800 transition-all"
+          >
+            SUBMIT TO PRODUCTION
+          </button>
+
+        </form>
+      </div>
     </div>
   );
 }
