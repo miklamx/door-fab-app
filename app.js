@@ -52,7 +52,7 @@ function DoorApp() {
   const validate = () => {
     const newErrors = {};
     REQUIRED_FIELDS.forEach(f => {
-      if (!formData[f] || formData[f].toString().trim() === '') newErrors[f] = true;
+      if (!formData[f]?.toString().trim()) newErrors[f] = true;
     });
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -214,10 +214,7 @@ function DoorApp() {
 
   // Submit to production: validate, save, export PDF
   const submitToProduction = () => {
-    if (!validate()) {
-      showSuccess('');
-      return;
-    }
+    if (!validate()) return;
     setStatus('Production');
     const ts = Date.now();
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ formData, status: 'Production', savedAt: ts }));
