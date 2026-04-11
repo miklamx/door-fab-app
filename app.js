@@ -1,33 +1,38 @@
-// Import required modules
+// Updated app.js
+
+// Assuming using React for toggle behavior
 import React, { useState } from 'react';
 
-const CustomerInfo = () => {
-    const [docType, setDocType] = useState('Quote');
+const App = () => {
+    const [toggle, setToggle] = useState('Quote'); // Default to Quote
+
+    const handleToggle = (event) => {
+        setToggle(event.target.value);
+    };
 
     return (
-        <div className="customer-info">
-            <div className="docType-toggle">
-                <button
-                    className={docType === 'Quote' ? 'active' : ''}
-                    onClick={() => setDocType('Quote')}
-                    style={{ backgroundColor: docType === 'Quote' ? 'blue' : 'transparent' }}
-                >Quote</button>
-                <button
-                    className={docType === 'Order' ? 'active' : ''}
-                    onClick={() => setDocType('Order')}
-                    style={{ backgroundColor: docType === 'Order' ? 'blue' : 'transparent' }}
-                >Order</button>
+        <div>
+            <h1>Customer Information</h1>
+            <select onChange={handleToggle} value={toggle}>
+                <option value="Quote">Quote</option>
+                <option value="Order">Order</option>
+            </select>
+            <div>
+                <label>Customer Name:</label>
+                <input type="text" />
+                <label>Account #:</label>
+                <input type="text" />
+                <label>Phone:</label>
+                <input type="text" />
             </div>
-            <form>
-                {/* Other form fields go here */}
-                <input
-                    type="hidden"
-                    name="docType"
-                    value={docType}
-                />
-            </form>
+            {toggle === 'Order' && (
+                <div>
+                    <label>PO #:</label>
+                    <input type="text" />
+                </div>
+            )}
         </div>
     );
 };
 
-export default CustomerInfo;
+export default App;
