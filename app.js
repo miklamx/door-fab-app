@@ -2,6 +2,7 @@ const { useState } = React;
 
 function DoorApp() {
   const [status, setStatus] = useState('Presale');
+  const [showVideo, setShowVideo] = useState(true);
   const [formData, setFormData] = useState({
     customerName: '', accountNum: '', phone: '',
     docType: 'Quote',
@@ -34,28 +35,38 @@ function DoorApp() {
         </div>
       </div>
 
-      {/* Video Intro Section */}
-      <div className="w-full bg-gradient-to-b from-blue-900 to-blue-800 py-8">
-        <div className="max-w-4xl mx-auto px-6">
-          <div className="mb-4">
-            <h2 className="text-2xl font-bold text-white mb-2">📹 Getting Started</h2>
-            <p className="text-blue-100">Watch this quick guide to confidently measure and place your order</p>
+      {/* Video Intro Section - Shows/Hides based on showVideo state */}
+      {showVideo && (
+        <div className="w-full bg-gradient-to-b from-blue-900 to-blue-800 py-8 transition-all duration-300">
+          <div className="max-w-4xl mx-auto px-6">
+            <div className="mb-4 flex justify-between items-start">
+              <div>
+                <h2 className="text-2xl font-bold text-white mb-2">📹 Getting Started</h2>
+                <p className="text-blue-100">Watch this quick guide to confidently measure and place your order</p>
+              </div>
+              <button
+                onClick={() => setShowVideo(false)}
+                className="text-white bg-blue-700 hover:bg-blue-600 px-4 py-2 rounded-lg font-semibold transition-all"
+              >
+                ✕ Close
+              </button>
+            </div>
+            <video 
+              width="100%" 
+              height="auto" 
+              autoPlay 
+              muted 
+              loop
+              className="rounded-lg shadow-xl border-4 border-blue-400"
+              style={{ maxHeight: '400px', objectFit: 'cover' }}
+            >
+              <source src="https://github.com/miklamx/door-fab-app/raw/main/images/Pip_Boy_s_Motivational_Door_Measurement.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            <p className="text-center text-blue-100 mt-4 text-sm">💡 Tip: Follow the measurements shown in the video for best results</p>
           </div>
-          <video 
-            width="100%" 
-            height="auto" 
-            autoPlay 
-            muted 
-            loop
-            className="rounded-lg shadow-xl border-4 border-blue-400"
-            style={{ maxHeight: '400px', objectFit: 'cover' }}
-          >
-            <source src="https://github.com/miklamx/door-fab-app/raw/main/images/Pip_Boy_s_Motivational_Door_Measurement.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-          <p className="text-center text-blue-100 mt-4 text-sm">💡 Tip: Follow the measurements shown in the video for best results</p>
         </div>
-      </div>
+      )}
 
       {/* Main Form Container */}
       <div className="p-6 max-w-4xl mx-auto">
