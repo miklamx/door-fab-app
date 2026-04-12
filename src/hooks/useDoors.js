@@ -2,11 +2,22 @@ import { useState, useEffect } from "react";
 
 const STORAGE_KEY = "door-fab-state";
 
+function uuid() {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID();
+  }
+  // Fallback for environments where crypto.randomUUID is unavailable
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
+  });
+}
+
 function blankDoor() {
   return {
-    id: crypto.randomUUID(),
+    id: uuid(),
     status: "Presale",
-    _presetCount: 0,
+    formVersion: 0,
     jobName: "",
     swing: "",
     doorWidth: "",
@@ -23,7 +34,7 @@ function blankDoor() {
 
 // Ensure any door loaded from storage has all required fields
 function normalizeDoor(d) {
-  return { _presetCount: 0, ...d };
+  return { formVersion: 0, ...d };
 }
 
 function getInitialState() {
@@ -112,7 +123,7 @@ export default function useDoors() {
       ...prev,
       doors: prev.doors.map((d) =>
         d.id === id
-          ? { ...d, ...fields, _presetCount: (d._presetCount || 0) + 1 }
+          ? { ...d, ...fields, formVersion: (d.formVersion || 0) + 1 }
           : d
       ),
     }));

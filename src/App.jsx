@@ -179,7 +179,7 @@ export default function App() {
               {/* Form — key forces remount when door switches or preset applied */}
               <div className="flex-1 max-w-lg">
                 <DoorForm
-                  key={`${activeDoorId}-${activeDoor._presetCount ?? 0}`}
+                  key={`${activeDoorId}-${activeDoor.formVersion ?? 0}`}
                   door={activeDoor}
                   onChange={(field, value) =>
                     updateDoor(activeDoorId, { [field]: value })

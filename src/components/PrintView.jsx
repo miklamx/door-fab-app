@@ -1,12 +1,7 @@
 import { fmtInches } from "../utils/validation";
 import DoorDiagram from "./DoorDiagram";
 
-function PrintPage({ door }) {
-  const printDate = new Date().toLocaleDateString(undefined, {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+function PrintPage({ door, printDate }) {
 
   return (
     <div className="print-page">
@@ -116,6 +111,12 @@ function PrintPage({ door }) {
 }
 
 export default function PrintView({ doors }) {
+  const printDate = new Date().toLocaleDateString(undefined, {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
   // Print all doors (Production doors first, then Presale)
   const sorted = [
     ...doors.filter((d) => d.status === "Production"),
@@ -125,7 +126,7 @@ export default function PrintView({ doors }) {
   return (
     <div id="print-view" className="print-only">
       {sorted.map((door) => (
-        <PrintPage key={door.id} door={door} />
+        <PrintPage key={door.id} door={door} printDate={printDate} />
       ))}
     </div>
   );

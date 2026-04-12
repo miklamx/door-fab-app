@@ -7,6 +7,7 @@ import { validate } from "../utils/validation";
 
 export default function DoorForm({ door, onChange, onSave, onApplyPreset }) {
   const [touched, setTouched] = useState({});
+  const [selectedPreset, setSelectedPreset] = useState("");
 
   const errors = validate(door);
   const isValid = Object.keys(errors).length === 0;
@@ -37,14 +38,13 @@ export default function DoorForm({ door, onChange, onSave, onApplyPreset }) {
 
   function handlePresetChange(e) {
     const presetId = e.target.value;
-    if (!presetId) return;
     const preset = PRESETS.find((p) => p.id === presetId);
     if (preset) {
       onApplyPreset(preset.fields);
       setTouched({});
     }
-    // Reset to placeholder so the same preset can be re-selected
-    e.target.value = "";
+    // Reset to placeholder so the same preset can be re-applied
+    setSelectedPreset("");
   }
 
   const inputClass = (field) =>
@@ -60,7 +60,7 @@ export default function DoorForm({ door, onChange, onSave, onApplyPreset }) {
           Load Preset
         </label>
         <select
-          defaultValue=""
+          value={selectedPreset}
           onChange={handlePresetChange}
           className="w-full border border-slate-600 p-2 rounded bg-slate-800 text-slate-100 focus:outline-none focus:ring-1 focus:ring-blue-500"
         >
