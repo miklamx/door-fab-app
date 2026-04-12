@@ -27,7 +27,7 @@ jobs:
           node-version: 20
           cache: npm
 
-      - - name: Install
+      - name: Install
   run: npm install
 
       - name: Build
