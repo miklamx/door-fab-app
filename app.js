@@ -46,7 +46,10 @@ function DoorApp() {
               </div>
               <button
                 onClick={() => setShowVideo(false)}
-                className="text-white px-4 py-2 rounded-lg font-semibold transition-all" style={{ background: '#444444' }}
+                className="text-white px-4 py-2 rounded-lg font-semibold transition-all"
+                style={{ background: '#444444' }}
+                onMouseEnter={e => e.currentTarget.style.background = '#555555'}
+                onMouseLeave={e => e.currentTarget.style.background = '#444444'}
               >
                 ✕ Close
               </button>
