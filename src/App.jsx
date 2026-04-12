@@ -34,14 +34,14 @@ function validate(door) {
   if (isNaN(dw)) {
     errors.doorWidth = "Door width is required.";
   } else if (dw <= 0 || dw >= 60) {
-    errors.doorWidth = "Width must be between 0 and 60 inches.";
+    errors.doorWidth = "Width must be greater than 0 and less than 60 inches.";
   }
 
   const dh = door.doorHeight === "" ? NaN : parseFloat(door.doorHeight);
   if (isNaN(dh)) {
     errors.doorHeight = "Door height is required.";
   } else if (dh <= 0 || dh >= 120) {
-    errors.doorHeight = "Height must be between 0 and 120 inches.";
+    errors.doorHeight = "Height must be greater than 0 and less than 120 inches.";
   }
 
   // Swing
