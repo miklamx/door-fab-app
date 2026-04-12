@@ -160,6 +160,24 @@ export default function App() {
     setStatus("Production");
   }
 
+  function handleReset() {
+    setDoor({
+      jobName: "",
+      swing: "",
+      doorWidth: "",
+      doorHeight: "",
+      h1: "",
+      h2: "",
+      h3: "",
+      knob: "",
+      deadbolt: "",
+      backset: "2-3/8-in",
+      notes: "",
+    });
+    setTouched({});
+    setStatus("Presale");
+  }
+
   const inputClass = (field) =>
     `w-full border p-2 rounded bg-slate-800 text-slate-100 focus:outline-none focus:ring-1 focus:ring-blue-500 mt-1 ${
       err(field) ? "border-red-500" : "border-slate-600"
@@ -395,6 +413,14 @@ export default function App() {
         }`}
       >
         {status === "Production" ? "✓ Saved for Production" : "Save for Production"}
+      </button>
+
+      <button
+        type="button"
+        onClick={handleReset}
+        className="w-full mt-3 p-3 rounded font-bold border border-slate-600 bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors"
+      >
+        New Order / Reset
       </button>
 
       {/* ── Summary ── */}
