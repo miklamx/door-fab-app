@@ -1,4 +1,4 @@
-```js name=vite.config.js
+js name=vite.config.js
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
@@ -8,4 +8,3 @@ export default defineConfig({
   // https://miklamx.github.io/door-fab-app/
   base: '/door-fab-app/',
 })
-```
