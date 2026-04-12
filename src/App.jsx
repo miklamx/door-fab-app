@@ -29,6 +29,10 @@ function validate(door) {
     errors.jobName = "Job name / number is required.";
   }
 
+  if (!door.property.trim()) {
+    errors.property = "Property is required.";
+  }
+
   // Door dimensions
   const dw = door.doorWidth === "" ? NaN : parseFloat(door.doorWidth);
   if (isNaN(dw)) {
@@ -125,6 +129,8 @@ export default function App() {
   const [touched, setTouched] = useState({});
   const [door, setDoor] = useState({
     jobName: "",
+    property: "",
+    accountNumber: "",
     swing: "",
     doorWidth: "",
     doorHeight: "",
@@ -160,6 +166,26 @@ export default function App() {
     setStatus("Production");
   }
 
+  function handleReset() {
+    setDoor({
+      jobName: "",
+      property: "",
+      accountNumber: "",
+      swing: "",
+      doorWidth: "",
+      doorHeight: "",
+      h1: "",
+      h2: "",
+      h3: "",
+      knob: "",
+      deadbolt: "",
+      backset: "2-3/8-in",
+      notes: "",
+    });
+    setStatus("Presale");
+    setTouched({});
+  }
+
   const inputClass = (field) =>
     `w-full border p-2 rounded bg-slate-800 text-slate-100 focus:outline-none focus:ring-1 focus:ring-blue-500 mt-1 ${
       err(field) ? "border-red-500" : "border-slate-600"
@@ -192,6 +218,29 @@ export default function App() {
           className={inputClass("jobName")}
         />
         <FieldError msg={err("jobName")} />
+      </label>
+      <label className="block text-slate-200 text-sm font-medium mt-4">
+        Property <span className="text-red-400">*</span>
+        <input
+          type="text"
+          value={door.property}
+          onChange={(e) => set("property", e.target.value)}
+          onBlur={() => touch("property")}
+          placeholder="e.g. 123 Main St"
+          className={inputClass("property")}
+        />
+        <FieldError msg={err("property")} />
+      </label>
+      <label className="block text-slate-200 text-sm font-medium mt-4">
+        Account Number{" "}
+        <span className="text-slate-500 font-normal">(optional)</span>
+        <input
+          type="text"
+          value={door.accountNumber}
+          onChange={(e) => set("accountNumber", e.target.value)}
+          placeholder="e.g. ACC-001"
+          className={inputClass("accountNumber")}
+        />
       </label>
 
       {/* ── Door Size ── */}
@@ -397,6 +446,14 @@ export default function App() {
         {status === "Production" ? "✓ Saved for Production" : "Save for Production"}
       </button>
 
+      <button
+        type="button"
+        onClick={handleReset}
+        className="w-full mt-3 p-3 rounded font-bold transition-colors bg-slate-700 hover:bg-red-700 text-slate-200 hover:text-white border border-slate-600 hover:border-red-600"
+      >
+        Reset Session
+      </button>
+
       {/* ── Summary ── */}
       {status === "Production" && (
         <div className="mt-6 p-4 border border-green-700 rounded bg-slate-800">
@@ -404,6 +461,14 @@ export default function App() {
           <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
             <dt className="text-slate-400">Job</dt>
             <dd className="text-slate-100">{door.jobName}</dd>
+            <dt className="text-slate-400">Property</dt>
+            <dd className="text-slate-100">{door.property}</dd>
+            {door.accountNumber && (
+              <>
+                <dt className="text-slate-400">Account #</dt>
+                <dd className="text-slate-100">{door.accountNumber}</dd>
+              </>
+            )}
             <dt className="text-slate-400">Width</dt>
             <dd className="text-slate-100">{fmtInches(door.doorWidth)}</dd>
             <dt className="text-slate-400">Height</dt>
