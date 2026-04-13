@@ -25,11 +25,12 @@ export default function DoorForm({ door, onChange, onSave, onApplyPreset }) {
       "jobName",
       "doorWidth",
       "doorHeight",
+      "thickness",
+      "coreType",
       "swing",
       "h1",
       "h3",
       "knob",
-      "backset",
     ];
     setTouched(Object.fromEntries(allFields.map((f) => [f, true])));
     if (!isValid) return;
@@ -136,6 +137,50 @@ export default function DoorForm({ door, onChange, onSave, onApplyPreset }) {
         </div>
       </div>
 
+      {/* ── Door Spec ── */}
+      <SectionHeader>Door Spec</SectionHeader>
+      <div className="space-y-4">
+        <div>
+          <label className="block text-slate-200 text-sm font-medium">
+            Thickness <span className="text-red-400">*</span>
+            <select
+              value={door.thickness}
+              onChange={(e) => {
+                onChange("thickness", e.target.value);
+                touch("thickness");
+              }}
+              className={`w-full border p-2 rounded bg-slate-800 text-slate-100 focus:outline-none focus:ring-1 focus:ring-blue-500 mt-1 ${
+                err("thickness") ? "border-red-500" : "border-slate-600"
+              }`}
+            >
+              <option value="1-3/8-in">1-3/8 in</option>
+              <option value="1-3/4-in">1-3/4 in</option>
+            </select>
+            <FieldError msg={err("thickness")} />
+          </label>
+        </div>
+
+        <div>
+          <label className="block text-slate-200 text-sm font-medium">
+            Core Type <span className="text-red-400">*</span>
+            <select
+              value={door.coreType}
+              onChange={(e) => {
+                onChange("coreType", e.target.value);
+                touch("coreType");
+              }}
+              className={`w-full border p-2 rounded bg-slate-800 text-slate-100 focus:outline-none focus:ring-1 focus:ring-blue-500 mt-1 ${
+                err("coreType") ? "border-red-500" : "border-slate-600"
+              }`}
+            >
+              <option value="hollow">Hollow core</option>
+              <option value="solid">Solid core</option>
+            </select>
+            <FieldError msg={err("coreType")} />
+          </label>
+        </div>
+      </div>
+
       {/* ── Swing ── */}
       <SectionHeader>Swing</SectionHeader>
       <p className="text-sm text-slate-300 mb-2">
@@ -228,25 +273,6 @@ export default function DoorForm({ door, onChange, onSave, onApplyPreset }) {
             error={err("deadbolt")}
           />
           <FieldError msg={err("deadbolt")} />
-        </div>
-        <div>
-          <label className="block text-slate-200 text-sm font-medium">
-            Backset <span className="text-red-400">*</span>
-            <select
-              value={door.backset}
-              onChange={(e) => {
-                onChange("backset", e.target.value);
-                touch("backset");
-              }}
-              className={`w-full border p-2 rounded bg-slate-800 text-slate-100 focus:outline-none focus:ring-1 focus:ring-blue-500 mt-1 ${
-                err("backset") ? "border-red-500" : "border-slate-600"
-              }`}
-            >
-              <option value="2-3/8-in">2-3/8 in</option>
-              <option value="2-3/4-in">2-3/4 in</option>
-            </select>
-            <FieldError msg={err("backset")} />
-          </label>
         </div>
       </div>
 
