@@ -15,6 +15,20 @@ function fmtCoreType(val) {
   return val;
 }
 
+function fmtHingeSize(val) {
+  if (!val) return "—";
+  if (val === "3-1/2-in") return '3 1/2"';
+  if (val === "4-in") return '4"';
+  return val;
+}
+
+function fmtHingeRadius(val) {
+  if (!val) return "—";
+  if (val === "1/4-in") return '1/4"';
+  if (val === "5/8-in") return '5/8"';
+  return val;
+}
+
 function PrintPage({ door, printDate }) {
   const docType = door.docType || "Quote";
   const isOrder = docType === "Order";
@@ -82,6 +96,14 @@ function PrintPage({ door, printDate }) {
               </tr>
             </thead>
             <tbody>
+              <tr>
+                <td>Hinge Size</td>
+                <td>{fmtHingeSize(door.hingeSize)}</td>
+              </tr>
+              <tr>
+                <td>Hinge Radius</td>
+                <td>{fmtHingeRadius(door.hingeRadius)}</td>
+              </tr>
               <tr>
                 <td>Hinge 1 (Top)</td>
                 <td>{fmtInches(door.h1)}</td>
