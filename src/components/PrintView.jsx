@@ -16,6 +16,9 @@ function fmtCoreType(val) {
 }
 
 function PrintPage({ door, printDate }) {
+  const docType = door.docType || "Quote";
+  const isOrder = docType === "Order";
+
   return (
     <div className="print-page">
       {/* Header */}
@@ -23,7 +26,15 @@ function PrintPage({ door, printDate }) {
         <div>
           <h1 className="print-title">Door Boring Order — Shop Ticket</h1>
           {door.name && <p className="print-job">{door.name}</p>}
-          <p className="print-job">{door.jobName}</p>
+          <p className="print-job">
+            {docType}: {door.property}
+            {door.unit ? ` — Unit ${door.unit}` : ""}
+          </p>
+          {isOrder && (
+            <p className="print-job">
+              <strong>PO:</strong> {door.poNumber}
+            </p>
+          )}
         </div>
         <p className="print-date">Printed: {printDate}</p>
       </div>
