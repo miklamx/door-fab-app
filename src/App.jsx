@@ -20,6 +20,20 @@ function fmtCoreType(val) {
   return val;
 }
 
+function fmtHingeSize(val) {
+  if (!val) return "—";
+  if (val === "3-1/2-in") return '3 1/2"';
+  if (val === "4-in") return '4"';
+  return val;
+}
+
+function fmtHingeRadius(val) {
+  if (!val) return "—";
+  if (val === "1/4-in") return '1/4"';
+  if (val === "5/8-in") return '5/8"';
+  return val;
+}
+
 // ── Order Summary (read-only view for Production doors) ───────────────────────
 
 function OrderSummary({ door, onEdit }) {
@@ -84,6 +98,14 @@ function OrderSummary({ door, onEdit }) {
 
           <dt className="text-slate-400">Swing</dt>
           <dd className="text-slate-100">{door.swing} Hand</dd>
+
+          <dt className="text-slate-400">Hinge Size</dt>
+          <dd className="text-slate-100">{fmtHingeSize(door.hingeSize)}</dd>
+
+          <dt className="text-slate-400">Hinge Radius</dt>
+          <dd className="text-slate-100">
+            {fmtHingeRadius(door.hingeRadius)}
+          </dd>
 
           <dt className="text-slate-400">Hinge 1</dt>
           <dd className="text-slate-100">{fmtInches(door.h1)}</dd>
