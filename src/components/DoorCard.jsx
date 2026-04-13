@@ -11,7 +11,7 @@ export default function DoorCard({ door, isActive, onSelect, onDelete }) {
       <div className="flex items-center justify-between gap-2">
         <div className="min-w-0">
           <div className="font-medium text-slate-100 text-sm truncate">
-            {door.jobName || "Unnamed Door"}
+            {door.name || door.jobName || "Unnamed Door"}
           </div>
           <span
             className={`inline-block text-xs font-semibold px-1.5 py-0.5 rounded mt-1 ${

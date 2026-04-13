@@ -77,6 +77,17 @@ export default function DoorForm({ door, onChange, onSave, onApplyPreset }) {
 
       {/* ── Job Info ── */}
       <SectionHeader>Job Info</SectionHeader>
+      <label className="block text-slate-200 text-sm font-medium mb-3">
+        Door Name{" "}
+        <span className="text-slate-500 font-normal">(optional)</span>
+        <input
+          type="text"
+          value={door.name}
+          onChange={(e) => onChange("name", e.target.value)}
+          placeholder="e.g. Front Entry, Unit 4B"
+          className={inputClass("name")}
+        />
+      </label>
       <label className="block text-slate-200 text-sm font-medium">
         Order / Job Name or Number <span className="text-red-400">*</span>
         <input

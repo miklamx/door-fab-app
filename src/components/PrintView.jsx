@@ -9,6 +9,7 @@ function PrintPage({ door, printDate }) {
       <div className="print-header">
         <div>
           <h1 className="print-title">Door Boring Order — Shop Ticket</h1>
+          {door.name && <p className="print-job">{door.name}</p>}
           <p className="print-job">{door.jobName}</p>
         </div>
         <p className="print-date">Printed: {printDate}</p>
