@@ -21,9 +21,21 @@ export function validate(door) {
       ? parseFloat(door.doorHeight)
       : null;
 
-  // Job info
-  if (!door.jobName.trim()) {
-    errors.jobName = "Job name / number is required.";
+  const docType = door.docType || "Quote";
+
+  // Job info (new)
+  if (!door.property || !door.property.trim()) {
+    errors.property = "Property is required.";
+  }
+
+  // Unit + PO required for Orders only
+  if (docType === "Order") {
+    if (!door.unit || !door.unit.trim()) {
+      errors.unit = "Unit is required for Orders.";
+    }
+    if (!door.poNumber || !door.poNumber.trim()) {
+      errors.poNumber = "PO number is required for Orders.";
+    }
   }
 
   // Door dimensions
