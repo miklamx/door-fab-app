@@ -23,19 +23,44 @@ function blankDoor() {
     swing: "",
     doorWidth: "",
     doorHeight: "",
+    thickness: "1-3/8-in",
+    coreType: "hollow",
     h1: "",
     h2: "",
     h3: "",
     knob: "",
     deadbolt: "",
-    backset: "2-3/8-in",
     notes: "",
+  };
+}
+
+function migrateLegacyDoorFields(d) {
+  // Migrate old "backset" -> new "thickness" (best-effort defaulting)
+  let thickness = d.thickness;
+
+  if (!thickness) {
+    // heuristic: doors that used 2-3/4 backset were often exteriors
+    if (d.backset === "2-3/4-in") thickness = "1-3/4-in";
+    else thickness = "1-3/8-in";
+  }
+
+  const coreType = d.coreType || "hollow";
+
+  // Remove backset from the stored door (no longer used)
+  // eslint-disable-next-line no-unused-vars
+  const { backset, ...rest } = d;
+
+  return {
+    ...rest,
+    thickness,
+    coreType,
   };
 }
 
 // Ensure any door loaded from storage has all required fields
 function normalizeDoor(d) {
-  return { formVersion: 0, name: "", ...d };
+  const migrated = migrateLegacyDoorFields(d);
+  return { formVersion: 0, name: "", ...migrated };
 }
 
 function getInitialState() {
@@ -43,16 +68,11 @@ function getInitialState() {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) {
       const parsed = JSON.parse(raw);
-      if (
-        parsed &&
-        Array.isArray(parsed.doors) &&
-        parsed.doors.length > 0
-      ) {
+      if (parsed && Array.isArray(parsed.doors) && parsed.doors.length > 0) {
         const doors = parsed.doors.map(normalizeDoor);
-        const activeDoorId =
-          doors.find((d) => d.id === parsed.activeDoorId)
-            ? parsed.activeDoorId
-            : doors[0].id;
+        const activeDoorId = doors.find((d) => d.id === parsed.activeDoorId)
+          ? parsed.activeDoorId
+          : doors[0].id;
         return { doors, activeDoorId };
       }
     }
@@ -105,9 +125,7 @@ export default function useDoors() {
   function updateDoor(id, updates) {
     setState((prev) => ({
       ...prev,
-      doors: prev.doors.map((d) =>
-        d.id === id ? { ...d, ...updates } : d
-      ),
+      doors: prev.doors.map((d) => (d.id === id ? { ...d, ...updates } : d)),
     }));
   }
 
