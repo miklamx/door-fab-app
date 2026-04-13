@@ -1,8 +1,21 @@
 import { fmtInches } from "../utils/validation";
 import DoorDiagram from "./DoorDiagram";
 
-function PrintPage({ door, printDate }) {
+function fmtThickness(val) {
+  if (!val) return "—";
+  if (val === "1-3/8-in") return '1 3/8"';
+  if (val === "1-3/4-in") return '1 3/4"';
+  return val;
+}
 
+function fmtCoreType(val) {
+  if (!val) return "—";
+  if (val === "hollow") return "Hollow core";
+  if (val === "solid") return "Solid core";
+  return val;
+}
+
+function PrintPage({ door, printDate }) {
   return (
     <div className="print-page">
       {/* Header */}
@@ -35,12 +48,16 @@ function PrintPage({ door, printDate }) {
                 <td>{fmtInches(door.doorHeight)}</td>
               </tr>
               <tr>
-                <td>Swing</td>
-                <td>{door.swing} Hand</td>
+                <td>Thickness</td>
+                <td>{fmtThickness(door.thickness)}</td>
               </tr>
               <tr>
-                <td>Backset</td>
-                <td>{door.backset}</td>
+                <td>Core Type</td>
+                <td>{fmtCoreType(door.coreType)}</td>
+              </tr>
+              <tr>
+                <td>Swing</td>
+                <td>{door.swing} Hand</td>
               </tr>
             </tbody>
           </table>
