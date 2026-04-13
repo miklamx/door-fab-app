@@ -38,7 +38,17 @@ export function validate(door) {
   if (isNaN(dh)) {
     errors.doorHeight = "Door height is required.";
   } else if (dh <= 0 || dh >= 120) {
-    errors.doorHeight = "Height must be greater than 0 and less than 120 inches.";
+    errors.doorHeight =
+      "Height must be greater than 0 and less than 120 inches.";
+  }
+
+  // Door spec
+  if (!door.thickness) {
+    errors.thickness = "Thickness is required.";
+  }
+
+  if (!door.coreType) {
+    errors.coreType = "Core type is required.";
   }
 
   // Swing
@@ -92,10 +102,6 @@ export function validate(door) {
     } else if (maxH !== null && db >= maxH) {
       errors.deadbolt = `Deadbolt must be less than door height (${fmtInches(maxH)}).`;
     }
-  }
-
-  if (!door.backset) {
-    errors.backset = "Backset is required.";
   }
 
   return errors;
