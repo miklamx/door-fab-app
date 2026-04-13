@@ -22,7 +22,13 @@ export default function DoorForm({ door, onChange, onSave, onApplyPreset }) {
 
   function handleSave() {
     const allFields = [
-      "jobName",
+      // Quote vs Order + job info
+      "docType",
+      "property",
+      "unit",
+      "poNumber",
+
+      // door details
       "doorWidth",
       "doorHeight",
       "thickness",
@@ -32,6 +38,7 @@ export default function DoorForm({ door, onChange, onSave, onApplyPreset }) {
       "h3",
       "knob",
     ];
+
     setTouched(Object.fromEntries(allFields.map((f) => [f, true])));
     if (!isValid) return;
     onSave();
@@ -52,6 +59,8 @@ export default function DoorForm({ door, onChange, onSave, onApplyPreset }) {
     `w-full border p-2 rounded bg-slate-800 text-slate-100 focus:outline-none focus:ring-1 focus:ring-blue-500 mt-1 ${
       err(field) ? "border-red-500" : "border-slate-600"
     }`;
+
+  const isOrder = (door.docType || "Quote") === "Order";
 
   return (
     <div>
@@ -76,11 +85,36 @@ export default function DoorForm({ door, onChange, onSave, onApplyPreset }) {
         </select>
       </div>
 
+      {/* ── Quote / Order selector ── */}
+      <div className="mb-4">
+        <label className="block text-slate-200 text-sm font-medium">
+          Quote or Order <span className="text-red-400">*</span>
+          <select
+            value={door.docType || "Quote"}
+            onChange={(e) => {
+              onChange("docType", e.target.value);
+              touch("docType");
+            }}
+            className={`w-full border p-2 rounded bg-slate-800 text-slate-100 focus:outline-none focus:ring-1 focus:ring-blue-500 mt-1 ${
+              err("docType") ? "border-red-500" : "border-slate-600"
+            }`}
+          >
+            <option value="Quote">Quote</option>
+            <option value="Order">Order</option>
+          </select>
+          <FieldError msg={err("docType")} />
+        </label>
+
+        <p className="text-xs text-slate-400 mt-1">
+          PO Number and Unit are required for Orders, optional for Quotes.
+        </p>
+      </div>
+
       {/* ── Job Info ── */}
       <SectionHeader>Job Info</SectionHeader>
+
       <label className="block text-slate-200 text-sm font-medium mb-3">
-        Door Name{" "}
-        <span className="text-slate-500 font-normal">(optional)</span>
+        Door Name <span className="text-slate-500 font-normal">(optional)</span>
         <input
           type="text"
           value={door.name}
@@ -89,18 +123,61 @@ export default function DoorForm({ door, onChange, onSave, onApplyPreset }) {
           className={inputClass("name")}
         />
       </label>
+
       <label className="block text-slate-200 text-sm font-medium">
-        Order / Job Name or Number <span className="text-red-400">*</span>
+        Property <span className="text-red-400">*</span>
         <input
           type="text"
-          value={door.jobName}
-          onChange={(e) => onChange("jobName", e.target.value)}
-          onBlur={() => touch("jobName")}
-          placeholder="e.g. JOB-2024-001"
-          className={inputClass("jobName")}
+          value={door.property}
+          onChange={(e) => onChange("property", e.target.value)}
+          onBlur={() => touch("property")}
+          placeholder="e.g. Sunset Apartments"
+          className={inputClass("property")}
         />
-        <FieldError msg={err("jobName")} />
+        <FieldError msg={err("property")} />
       </label>
+
+      <div className="grid grid-cols-2 gap-4 mt-3">
+        <div>
+          <label className="block text-slate-200 text-sm font-medium">
+            Unit{" "}
+            {isOrder ? (
+              <span className="text-red-400">*</span>
+            ) : (
+              <span className="text-slate-500 font-normal">(optional)</span>
+            )}
+            <input
+              type="text"
+              value={door.unit}
+              onChange={(e) => onChange("unit", e.target.value)}
+              onBlur={() => touch("unit")}
+              placeholder="e.g. 4B"
+              className={inputClass("unit")}
+            />
+            <FieldError msg={err("unit")} />
+          </label>
+        </div>
+
+        <div>
+          <label className="block text-slate-200 text-sm font-medium">
+            PO Number{" "}
+            {isOrder ? (
+              <span className="text-red-400">*</span>
+            ) : (
+              <span className="text-slate-500 font-normal">(optional)</span>
+            )}
+            <input
+              type="text"
+              value={door.poNumber}
+              onChange={(e) => onChange("poNumber", e.target.value)}
+              onBlur={() => touch("poNumber")}
+              placeholder="e.g. PO-12345"
+              className={inputClass("poNumber")}
+            />
+            <FieldError msg={err("poNumber")} />
+          </label>
+        </div>
+      </div>
 
       {/* ── Door Size ── */}
       <SectionHeader>Door Size</SectionHeader>
