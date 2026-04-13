@@ -18,6 +18,7 @@ function blankDoor() {
     id: uuid(),
     status: "Presale",
     formVersion: 0,
+    name: "",
     jobName: "",
     swing: "",
     doorWidth: "",
@@ -34,7 +35,7 @@ function blankDoor() {
 
 // Ensure any door loaded from storage has all required fields
 function normalizeDoor(d) {
-  return { formVersion: 0, ...d };
+  return { formVersion: 0, name: "", ...d };
 }
 
 function getInitialState() {
