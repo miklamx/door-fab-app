@@ -10,12 +10,13 @@ export const PRESETS = [
       h3: 77,
       knob: 36,
       deadbolt: "",
-      backset: "2-3/8-in",
+      thickness: "1-3/8-in",
+      coreType: "hollow",
     },
   },
   {
-    id: "exterior-238",
-    label: 'Standard Exterior (2-3/8" backset)',
+    id: "exterior",
+    label: "Exterior",
     fields: {
       doorWidth: 36,
       doorHeight: 80,
@@ -24,12 +25,13 @@ export const PRESETS = [
       h3: 75,
       knob: 36,
       deadbolt: 44,
-      backset: "2-3/8-in",
+      thickness: "1-3/4-in",
+      coreType: "hollow",
     },
   },
   {
-    id: "exterior-234",
-    label: 'Standard Exterior (2-3/4" backset)',
+    id: "storeroom",
+    label: "Storeroom",
     fields: {
       doorWidth: 36,
       doorHeight: 80,
@@ -38,7 +40,8 @@ export const PRESETS = [
       h3: 75,
       knob: 36,
       deadbolt: 44,
-      backset: "2-3/4-in",
+      thickness: "1-3/4-in",
+      coreType: "hollow",
     },
   },
 ];
