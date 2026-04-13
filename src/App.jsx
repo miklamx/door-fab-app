@@ -23,6 +23,9 @@ function fmtCoreType(val) {
 // ── Order Summary (read-only view for Production doors) ───────────────────────
 
 function OrderSummary({ door, onEdit }) {
+  const docType = door.docType || "Quote";
+  const isOrder = docType === "Order";
+
   return (
     <div className="flex flex-col lg:flex-row gap-6 lg:items-start">
       <div className="flex-1 p-4 border border-green-700 rounded bg-slate-800">
@@ -45,9 +48,27 @@ function OrderSummary({ door, onEdit }) {
             </button>
           </div>
         </div>
+
         <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-          <dt className="text-slate-400">Job</dt>
-          <dd className="text-slate-100">{door.jobName}</dd>
+          <dt className="text-slate-400">Type</dt>
+          <dd className="text-slate-100">{docType}</dd>
+
+          <dt className="text-slate-400">Property</dt>
+          <dd className="text-slate-100">{door.property}</dd>
+
+          {door.unit && (
+            <>
+              <dt className="text-slate-400">Unit</dt>
+              <dd className="text-slate-100">{door.unit}</dd>
+            </>
+          )}
+
+          {isOrder && (
+            <>
+              <dt className="text-slate-400">PO Number</dt>
+              <dd className="text-slate-100">{door.poNumber}</dd>
+            </>
+          )}
 
           <dt className="text-slate-400">Width</dt>
           <dd className="text-slate-100">{fmtInches(door.doorWidth)}</dd>
