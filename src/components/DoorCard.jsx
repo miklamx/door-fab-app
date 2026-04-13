@@ -25,6 +25,8 @@ export default function DoorCard({ door, isActive, onSelect, onDelete }) {
 
   const spec = `${fmtThickness(door.thickness)} • ${fmtCoreType(door.coreType)}`;
 
+  const subtitle = `${meta} — ${spec}`;
+
   return (
     <div
       className={`p-3 rounded cursor-pointer border transition-colors ${
@@ -40,8 +42,9 @@ export default function DoorCard({ door, isActive, onSelect, onDelete }) {
             {title}
           </div>
 
-          <div className="text-xs text-slate-400 truncate mt-0.5">{meta}</div>
-          <div className="text-xs text-slate-400 truncate mt-0.5">{spec}</div>
+          <div className="text-xs text-slate-400 truncate mt-0.5">
+            {subtitle}
+          </div>
 
           <span
             className={`inline-block text-xs font-semibold px-1.5 py-0.5 rounded mt-1 ${
