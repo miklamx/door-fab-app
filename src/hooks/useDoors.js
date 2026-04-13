@@ -18,8 +18,17 @@ function blankDoor() {
     id: uuid(),
     status: "Presale",
     formVersion: 0,
+
+    // Quote vs Order
+    docType: "Quote", // default per requirement
+
+    // Job info (new fields)
+    property: "",
+    unit: "",
+    poNumber: "",
+
+    // Existing fields
     name: "",
-    jobName: "",
     swing: "",
     doorWidth: "",
     doorHeight: "",
@@ -37,7 +46,6 @@ function blankDoor() {
 function migrateLegacyDoorFields(d) {
   // Migrate old "backset" -> new "thickness" (best-effort defaulting)
   let thickness = d.thickness;
-
   if (!thickness) {
     // heuristic: doors that used 2-3/4 backset were often exteriors
     if (d.backset === "2-3/4-in") thickness = "1-3/4-in";
@@ -46,14 +54,24 @@ function migrateLegacyDoorFields(d) {
 
   const coreType = d.coreType || "hollow";
 
-  // Remove backset from the stored door (no longer used)
+  // New: docType + job fields
+  const docType = d.docType || "Quote";
+  const property = d.property || d.jobName || ""; // migrate old jobName -> property
+  const unit = d.unit || "";
+  const poNumber = d.poNumber || "";
+
+  // Remove deprecated "backset" and "jobName"
   // eslint-disable-next-line no-unused-vars
-  const { backset, ...rest } = d;
+  const { backset, jobName, ...rest } = d;
 
   return {
     ...rest,
     thickness,
     coreType,
+    docType,
+    property,
+    unit,
+    poNumber,
   };
 }
 
