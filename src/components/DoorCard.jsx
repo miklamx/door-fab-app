@@ -13,7 +13,16 @@ function fmtCoreType(val) {
 }
 
 export default function DoorCard({ door, isActive, onSelect, onDelete }) {
-  const title = door.name || door.jobName || "Unnamed Door";
+  const docType = door.docType || "Quote";
+  const isOrder = docType === "Order";
+
+  const title = door.name || door.property || "Unnamed Door";
+
+  const metaParts = [docType];
+  if (door.unit) metaParts.push(`Unit ${door.unit}`);
+  if (isOrder && door.poNumber) metaParts.push(`PO ${door.poNumber}`);
+  const meta = metaParts.join(" • ");
+
   const spec = `${fmtThickness(door.thickness)} • ${fmtCoreType(door.coreType)}`;
 
   return (
@@ -31,6 +40,7 @@ export default function DoorCard({ door, isActive, onSelect, onDelete }) {
             {title}
           </div>
 
+          <div className="text-xs text-slate-400 truncate mt-0.5">{meta}</div>
           <div className="text-xs text-slate-400 truncate mt-0.5">{spec}</div>
 
           <span
