@@ -6,6 +6,20 @@ import DoorDiagram from "./components/DoorDiagram";
 import PrintView from "./components/PrintView";
 import { fmtInches } from "./utils/validation";
 
+function fmtThickness(val) {
+  if (!val) return "—";
+  if (val === "1-3/8-in") return '1 3/8"';
+  if (val === "1-3/4-in") return '1 3/4"';
+  return val;
+}
+
+function fmtCoreType(val) {
+  if (!val) return "—";
+  if (val === "hollow") return "Hollow core";
+  if (val === "solid") return "Solid core";
+  return val;
+}
+
 // ── Order Summary (read-only view for Production doors) ───────────────────────
 
 function OrderSummary({ door, onEdit }) {
@@ -34,32 +48,45 @@ function OrderSummary({ door, onEdit }) {
         <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
           <dt className="text-slate-400">Job</dt>
           <dd className="text-slate-100">{door.jobName}</dd>
+
           <dt className="text-slate-400">Width</dt>
           <dd className="text-slate-100">{fmtInches(door.doorWidth)}</dd>
+
           <dt className="text-slate-400">Height</dt>
           <dd className="text-slate-100">{fmtInches(door.doorHeight)}</dd>
+
+          <dt className="text-slate-400">Thickness</dt>
+          <dd className="text-slate-100">{fmtThickness(door.thickness)}</dd>
+
+          <dt className="text-slate-400">Core Type</dt>
+          <dd className="text-slate-100">{fmtCoreType(door.coreType)}</dd>
+
           <dt className="text-slate-400">Swing</dt>
           <dd className="text-slate-100">{door.swing} Hand</dd>
+
           <dt className="text-slate-400">Hinge 1</dt>
           <dd className="text-slate-100">{fmtInches(door.h1)}</dd>
+
           {door.h2 !== "" && door.h2 !== null && (
             <>
               <dt className="text-slate-400">Hinge 2</dt>
               <dd className="text-slate-100">{fmtInches(door.h2)}</dd>
             </>
           )}
+
           <dt className="text-slate-400">Hinge 3</dt>
           <dd className="text-slate-100">{fmtInches(door.h3)}</dd>
+
           <dt className="text-slate-400">Knob CL</dt>
           <dd className="text-slate-100">{fmtInches(door.knob)}</dd>
+
           {door.deadbolt !== "" && door.deadbolt !== null && (
             <>
               <dt className="text-slate-400">Deadbolt CL</dt>
               <dd className="text-slate-100">{fmtInches(door.deadbolt)}</dd>
             </>
           )}
-          <dt className="text-slate-400">Backset</dt>
-          <dd className="text-slate-100">{door.backset}</dd>
+
           {door.notes && (
             <>
               <dt className="text-slate-400">Notes</dt>
@@ -108,7 +135,6 @@ export default function App() {
     <>
       {/* ── Screen layout ── */}
       <div className="no-print min-h-screen bg-slate-900 text-slate-100 flex flex-col md:flex-row">
-
         {/* Mobile top bar */}
         <div className="md:hidden bg-slate-800 p-3 flex items-center justify-between border-b border-slate-700">
           <h1 className="text-lg font-bold truncate">Door Boring Order</h1>
